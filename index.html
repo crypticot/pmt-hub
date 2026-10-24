@@ -143,7 +143,7 @@ button { cursor: pointer; background: none; border: none; }
   gap: 26px;
 }
 .brand { display: flex; align-items: center; gap: 12px; }
-.brand h1 {
+.brand .brand-name {
   font-family: var(--font-display);
   font-size: 1.3rem;
   line-height: 1.1;
@@ -178,6 +178,22 @@ button { cursor: pointer; background: none; border: none; }
 .nav button.on { color: var(--text); background: var(--card); box-shadow: inset 3px 0 0 var(--acc); }
 .nav button.on svg { stroke: var(--acc); }
 .side-note { margin-top: auto; color: var(--mute); font-size: 0.78rem; line-height: 1.45; }
+.side-user {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  text-align: left;
+  padding: 12px;
+  border-radius: var(--r-md);
+  background: var(--card);
+  border: 1px solid var(--line);
+}
+.side-user:hover { border-color: var(--acc); }
+.side-user .avatar { width: 40px; height: 40px; }
+.su-text { min-width: 0; display: grid; }
+.su-text b { font-size: 0.92rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.su-text small { color: var(--mute); font-size: 0.78rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 
 .main { min-width: 0; padding: 20px 28px 48px; }
 
@@ -355,7 +371,7 @@ select {
 }
 .hero-art svg { width: 100%; height: 100%; display: block; }
 .hero-copy { position: relative; max-width: 560px; }
-.hero h2 {
+.hero h1 {
   font-family: var(--font-display);
   font-size: clamp(1.75rem, 3.9vw, 2.9rem);
   line-height: 1.02;
@@ -415,6 +431,57 @@ select {
 .filters .dd { flex: 1 1 150px; min-width: 0; }
 .filters .btn { flex: none; }
 
+/* filter bar and filter sheet */
+.filters { flex-wrap: nowrap; align-items: center; gap: 12px; }
+.fbtn {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 0 16px;
+  border-radius: 999px;
+  background: var(--card2);
+  border: 1px solid var(--line);
+  font-weight: 700;
+}
+.fbtn:hover { border-color: var(--acc); }
+.fbtn svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 1.9; stroke-linecap: round; }
+.fbtn .cnt {
+  min-width: 22px;
+  height: 22px;
+  padding: 0 6px;
+  border-radius: 999px;
+  background: var(--acc);
+  color: var(--acc-ink);
+  font-size: 0.78rem;
+  display: grid;
+  place-items: center;
+}
+.fbadges { display: flex; align-items: center; gap: 8px; overflow-x: auto; min-width: 0; flex: 1; scrollbar-width: none; padding: 2px 0; }
+.fbadges::-webkit-scrollbar { display: none; }
+.fbadges .mute { white-space: nowrap; }
+.fbadge {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--acc-soft);
+  color: var(--acc);
+  border-radius: 999px;
+  padding: 6px 10px 6px 14px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+.fbadge svg { width: 14px; height: 14px; stroke: currentColor; stroke-width: 2.4; stroke-linecap: round; fill: none; }
+.fbadge:hover { filter: brightness(1.15); }
+.fform { display: grid; gap: 14px; }
+.fform label { display: grid; gap: 6px; font-size: 0.86rem; color: var(--mute); font-weight: 600; }
+.sheet-foot .btn.wide { flex: 1 1 100%; }
+.fform .ddbtn { color: var(--text); font-weight: 500; font-size: 1rem; }
+@media (min-width: 721px) { #fsheet { width: min(480px, 92vw); } }
+
 /* ═════════ Buttons, chips, tags ═════════ */
 .btn {
   background: var(--acc);
@@ -463,7 +530,7 @@ select {
 @keyframes viewin { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
 @keyframes ddin { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: none; } }
 .vhead { display: flex; align-items: baseline; justify-content: space-between; gap: 10px 16px; flex-wrap: wrap; margin-bottom: 16px; }
-.vhead h3 { font-family: var(--font-display); font-size: 1.5rem; letter-spacing: -0.02em; line-height: 1.15; }
+.vhead h2 { font-family: var(--font-display); font-size: 1.5rem; letter-spacing: -0.02em; line-height: 1.15; }
 .band { background: var(--panel); border: 1px solid var(--line); border-radius: var(--r-lg); padding: 22px; }
 
 .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 290px), 1fr)); gap: 16px; }
@@ -494,7 +561,7 @@ select {
 .card:hover { border-color: var(--acc); }
 .card.static { cursor: default; }
 .card.static:hover { border-color: var(--line); }
-.card h4 { font-family: var(--font-display); font-size: 1.08rem; line-height: 1.25; letter-spacing: -0.01em; }
+.card h3 { font-family: var(--font-display); font-size: 1.08rem; line-height: 1.25; letter-spacing: -0.01em; }
 .card .lect { margin-top: auto; padding-top: 10px; border-top: 1px solid var(--line); }
 .row { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
 
@@ -512,7 +579,7 @@ select {
   font-weight: 700;
   color: var(--acc);
 }
-.fac-head h4 { font-size: 1.02rem; }
+.fac-head h3 { font-size: 1.02rem; }
 .codes { display: flex; flex-wrap: wrap; gap: 6px; padding-top: 10px; border-top: 1px solid var(--line); margin-top: auto; }
 .codes span { font-family: var(--font-mono); font-size: 0.74rem; font-weight: 600; background: var(--card2); border: 1px solid var(--line); border-radius: 6px; padding: 3px 8px; }
 .codes span.more { color: var(--acc); border-color: var(--acc); background: transparent; }
@@ -623,7 +690,7 @@ footer a { color: var(--mute); }
     flex-direction: row;
     gap: 0;
   }
-  .side .brand, .side-note { display: none; }
+  .side .brand, .side-note, .side-user { display: none; }
   .nav { flex-direction: row; width: 100%; gap: 2px; }
   .nav button {
     flex: 1;
@@ -648,7 +715,7 @@ footer a { color: var(--mute); }
   .filters .dd { flex: 1 1 calc(50% - 5px); }
   .filters .btn { flex: 1 1 calc(50% - 5px); }
   .band { padding: 14px; border-radius: var(--r-md); }
-  .vhead h3 { font-size: 1.3rem; }
+  .vhead h2 { font-size: 1.3rem; }
 }
 @media (max-width: 720px) {
   dialog {
@@ -696,7 +763,7 @@ footer a { color: var(--mute); }
         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke-width="2.4" stroke-linecap="round"><path d="M5 7h8M9 12h10M5 17h6"/></svg>
       </div>
       <div>
-        <h1>PMT Hub</h1>
+        <p class="brand-name">PMT Hub</p>
         <small>FUTO Owerri</small>
       </div>
     </div>
@@ -708,6 +775,7 @@ footer a { color: var(--mute); }
       <button data-tab="settings"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M18.4 5.6l-2.1 2.1M7.7 16.3l-2.1 2.1"/></svg><span>Settings</span></button>
     </nav>
     <p class="side-note">2026/2027 Harmattan semester. Works offline once opened.</p>
+    <button class="side-user" id="sideUser" aria-label="Open your profile settings"></button>
   </aside>
 
   <main class="main">
@@ -717,7 +785,7 @@ footer a { color: var(--mute); }
         <div class="logo">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke-width="2.4" stroke-linecap="round"><path d="M5 7h8M9 12h10M5 17h6"/></svg>
         </div>
-        <div><h1>PMT Hub</h1></div>
+        <div><p class="brand-name">PMT Hub</p></div>
       </div>
       <div class="search">
         <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
@@ -752,7 +820,7 @@ footer a { color: var(--mute); }
           </svg>
         </div>
         <div class="hero-copy">
-          <h2 id="hTitle">All PMT programmes</h2>
+          <h1 id="hTitle">All PMT programmes</h1>
           <p id="hSub"></p>
           <div class="hchips" id="hChips"></div>
         </div>
@@ -760,23 +828,43 @@ footer a { color: var(--mute); }
     </div>
 
     <div class="filters">
-      <select id="fDeg" aria-label="Programme"></select>
-      <select id="fOpt" aria-label="Option area"></select>
-      <select id="fSem" aria-label="Semester"></select>
-      <select id="fDay" aria-label="Day"></select>
-      <button class="btn ghost" onclick="resetFilters()">Reset</button>
-      <button class="btn ghost" onclick="copyLink()">Copy share link</button>
+      <button class="fbtn" id="fOpen" aria-haspopup="dialog">
+        <svg viewBox="0 0 24 24"><path d="M4 7h16M7 12h10M10 17h4"/></svg>
+        Filters <span class="cnt" id="fCount" hidden></span>
+      </button>
+      <div class="fbadges" id="fBadges"></div>
     </div>
+
+    <dialog id="fsheet" aria-label="Filters">
+      <div class="sheet-head">
+        <h2>Filters</h2>
+        <p class="mute">Pick your programme to see only your courses, lecturers and timetable.</p>
+        <button class="sheet-x" data-close aria-label="Close"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+      </div>
+      <div class="sheet-body">
+        <div class="fform">
+          <label class="fl">Programme <select id="fDeg" aria-label="Programme"></select></label>
+          <label class="fl">Option area <select id="fOpt" aria-label="Option area"></select></label>
+          <label class="fl">Semester <select id="fSem" aria-label="Semester"></select></label>
+          <label class="fl">Day <select id="fDay" aria-label="Day"></select></label>
+        </div>
+      </div>
+      <div class="sheet-foot">
+        <button class="btn ghost" onclick="resetFilters()">Reset</button>
+        <button class="btn ghost" onclick="copyLink()">Copy share link</button>
+        <button class="btn wide" data-close>Done</button>
+      </div>
+    </dialog>
 
     <div id="focusBar"></div>
 
     <section id="courses" class="view">
-      <div class="vhead"><h3>Course allocation</h3><span class="mute" id="courseCount"></span></div>
+      <div class="vhead"><h2>Course allocation</h2><span class="mute" id="courseCount"></span></div>
       <div class="grid" id="courseGrid"></div>
     </section>
 
     <section id="timetable" class="view tt" hidden>
-      <div class="vhead"><h3>Weekly timetable</h3><span class="mute" id="ttCount"></span></div>
+      <div class="vhead"><h2>Weekly timetable</h2><span class="mute" id="ttCount"></span></div>
       <div class="band">
         <p class="tt-sort-hint" style="margin-bottom:12px">Click a heading to sort: ascending, descending, then off. On a phone, swipe sideways to see every column.</p>
         <div class="tablewrap">
@@ -789,17 +877,17 @@ footer a { color: var(--mute); }
     </section>
 
     <section id="faculty" class="view" hidden>
-      <div class="vhead"><h3>Faculty</h3><span class="mute" id="facCount"></span></div>
+      <div class="vhead"><h2>Faculty</h2><span class="mute" id="facCount"></span></div>
       <div class="grid" id="facGrid"></div>
     </section>
 
     <section id="cgpa" class="view" hidden>
-      <div class="vhead"><h3>CGPA calculator</h3><span class="mute">Pick a programme above, then enter your grades. Scale is editable in Settings.</span></div>
+      <div class="vhead"><h2>CGPA calculator</h2><span class="mute">Pick a programme above, then enter your grades. Scale is editable in Settings.</span></div>
       <div id="cgpaBody"></div>
     </section>
 
     <section id="settings" class="view" hidden>
-      <div class="vhead"><h3>Settings</h3></div>
+      <div class="vhead"><h2>Settings</h2></div>
       <div class="band">
         <div class="form">
           <label>Name <input class="field" id="sName"></label>
@@ -1042,6 +1130,13 @@ function renderFilters() {
   $('#fDay').innerHTML = opts('All days', DAYS, S.day);
   $('#fDay').hidden = TAB !== 'timetable';
   ['fDeg', 'fOpt', 'fSem', 'fDay'].forEach((id) => syncDD($('#' + id)));
+  const bs = [['deg', S.deg], ['opt', !$('#fOpt').hidden ? S.opt : ''], ['sem', S.sem], ['day', TAB === 'timetable' ? S.day : '']]
+    .filter((b) => b[1]);
+  $('#fBadges').innerHTML = bs.map((b) =>
+    `<button class="fbadge" data-clear="${b[0]}" aria-label="Remove filter ${esc(b[1])}">${esc(b[1])}<svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button>`).join('') ||
+    '<span class="mute">Showing everything. Tap Filters to narrow it down.</span>';
+  $('#fCount').textContent = bs.length;
+  $('#fCount').hidden = !bs.length;
 }
 
 ['fDeg', 'fOpt', 'fSem', 'fDay'].forEach((id) => {
@@ -1062,11 +1157,22 @@ function resetFilters() {
   render();
 }
 
+$('#fOpen').addEventListener('click', () => showDlg($('#fsheet')));
+$('#fBadges').addEventListener('click', (e) => {
+  const b = e.target.closest('[data-clear]');
+  if (!b) return;
+  S[b.dataset.clear] = '';
+  if (b.dataset.clear === 'deg') S.opt = '';
+  FOCUS = null;
+  save();
+  render();
+});
+
 function copyLink() {
   const p = new URLSearchParams();
   if (S.deg) p.set('deg', S.deg);
   if (S.opt) p.set('opt', S.opt);
-  const url = location.origin + location.pathname + (p.toString() ? '#' + p.toString() : '');
+  const url = location.origin + location.pathname + '#' + TAB + (p.toString() ? '?' + p.toString() : '');
   (navigator.clipboard ? navigator.clipboard.writeText(url) : Promise.reject())
     .then(() => alert('Link copied'))
     .catch(() => prompt('Copy this link', url));
@@ -1082,7 +1188,7 @@ function renderCourses() {
         <span class="code">${esc(c.code)}</span>
         <span class="badge">${unitsText(c)} units</span>
       </div>
-      <h4>${esc(c.title)}</h4>
+      <h3>${esc(c.title)}</h3>
       <div class="tags">
         ${c.mem.map((m) => `<span class="tag">${m.deg} · ${m.area === 'core' ? 'Core' : esc(m.area)}</span>`).join('')}
         <span class="tag">${c.sem}</span>
@@ -1112,7 +1218,7 @@ function openCourse(code, from) {
         <dt>Programmes</dt>
         <dd>${c.mem.map((m) => `${m.deg} (${m.area === 'core' ? 'Core' : esc(m.area)}, ${m.units} units)`).join('<br>')}</dd>
         <dt>Lecturers</dt>
-        <dd><div class="pills">${c.lecturers.map((l) => `<button class="pill" data-lect="${esc(l)}">${esc(l)}</button>`).join('')}</div></dd>
+        <dd><div class="pills">${c.lecturers.map((l) => `<button class="pill" data-lect="${esc(l)}" data-fromcode="${esc(c.code)}">${esc(l)}</button>`).join('')}</div></dd>
         <dt>Class slots</dt><dd><ul>${slots}</ul></dd>
       </dl>
     </div>
@@ -1120,11 +1226,11 @@ function openCourse(code, from) {
       ${from ? `<button class="btn ghost" data-lect="${esc(from)}">Back to ${esc(from)}</button>` : ''}
       <button class="btn" data-close>Close</button>
     </div>`;
-  if (!$('#dlg').open) $('#dlg').showModal();
+  showDlg($('#dlg'));
   $('#dlg .sheet-body').scrollTop = 0;
 }
 
-function openLecturer(name) {
+function openLecturer(name, fromCode) {
   const all = COURSES.filter((c) => c.lecturers.includes(name));
   const list = all.filter(inFilters);
   const progs = [...new Set(list.flatMap((c) => c.mem.map((m) => m.deg)))];
@@ -1150,18 +1256,32 @@ function openLecturer(name) {
           </button>`).join('') || '<p class="mute">No courses for this lecturer under the current filters.</p>'}
       </div>
     </div>
-    <div class="sheet-foot"><button class="btn" data-close>Close</button></div>`;
-  if (!$('#dlg').open) $('#dlg').showModal();
+    <div class="sheet-foot">
+      ${fromCode ? `<button class="btn ghost" data-code="${esc(fromCode)}">Back to ${esc(fromCode)}</button>` : ''}
+      <button class="btn" data-close>Close</button>
+    </div>`;
+  showDlg($('#dlg'));
   $('#dlg .sheet-body').scrollTop = 0;
 }
 
-function closeDlg() {
-  const d = $('#dlg');
+function showDlg(d) {
+  if (d.open) return;
+  d.showModal();
+  history.pushState({ dlg: d.id }, '', location.href);
+}
+
+function closeDlg(d, fromPop) {
+  d = d || $('#dlg');
   if (!d.open || d.classList.contains('closing')) return;
   d.classList.add('closing');
+  if (!fromPop && history.state && history.state.dlg) history.back();
   setTimeout(() => { d.classList.remove('closing'); d.close(); }, 260);
 }
-$('#dlg').addEventListener('cancel', (e) => { e.preventDefault(); closeDlg(); });
+$('#dlg').addEventListener('cancel', (e) => { e.preventDefault(); closeDlg($('#dlg')); });
+$('#fsheet').addEventListener('cancel', (e) => { e.preventDefault(); closeDlg($('#fsheet')); });
+$('#fsheet').addEventListener('click', (e) => {
+  if (e.target === e.currentTarget || e.target.closest('[data-close]')) closeDlg($('#fsheet'));
+});
 
 $('#dlg').addEventListener('click', (e) => {
   if (e.target === e.currentTarget) { closeDlg(); return; }
@@ -1169,7 +1289,7 @@ $('#dlg').addEventListener('click', (e) => {
   if (!b) return;
   if (b.hasAttribute('data-close')) closeDlg();
   else if (b.dataset.code) openCourse(b.dataset.code, b.dataset.from || '');
-  else if (b.dataset.lect) openLecturer(b.dataset.lect);
+  else if (b.dataset.lect) openLecturer(b.dataset.lect, b.dataset.fromcode || '');
 });
 
 $('#courseGrid').addEventListener('click', (e) => {
@@ -1253,7 +1373,7 @@ function renderFaculty() {
       <div class="fac-head">
         <div class="fac-av">${esc(initials(n))}</div>
         <div>
-          <h4>${esc(n)}</h4>
+          <h3>${esc(n)}</h3>
           <p class="mute">${cs.length} course${cs.length === 1 ? '' : 's'}</p>
         </div>
       </div>
@@ -1305,8 +1425,8 @@ function renderCgpa() {
   const cgpa = totU ? (points + (+S.prevU || 0) * (+S.prevC || 0)) / totU : 0;
   $('#cgpaBody').innerHTML = `
     <div class="grid" style="margin-bottom:16px">
-      <div class="card static"><span class="mute">Semester GPA</span><h4 style="font-size:2rem">${gpa.toFixed(2)}</h4><span class="mute">${units} units graded</span></div>
-      <div class="card static"><span class="mute">CGPA with earlier results</span><h4 style="font-size:2rem">${cgpa.toFixed(2)}</h4><span class="mute">${totU} units total</span></div>
+      <div class="card static"><span class="mute">Semester GPA</span><h3 style="font-size:2rem">${gpa.toFixed(2)}</h3><span class="mute">${units} units graded</span></div>
+      <div class="card static"><span class="mute">CGPA with earlier results</span><h3 style="font-size:2rem">${cgpa.toFixed(2)}</h3><span class="mute">${totU} units total</span></div>
       <div class="card static">
         <label class="mute">Earlier units <input class="field" type="number" value="${S.prevU}" oninput="S.prevU=this.value;save()" onchange="renderCgpa()"></label>
         <label class="mute">Earlier CGPA <input class="field" type="number" step="0.01" value="${S.prevC}" oninput="S.prevC=this.value;save()" onchange="renderCgpa()"></label>
@@ -1353,11 +1473,13 @@ function syncDD(sel) {
   const opt = sel.options[sel.selectedIndex];
   btn.textContent = opt ? opt.textContent : '';
   wrap.hidden = sel.hidden;
+  if (wrap.parentNode.classList.contains('fl')) wrap.parentNode.hidden = sel.hidden;
 }
 
 function openDD(sel, btn) {
   if (DD_OPEN && DD_OPEN.sel === sel) { closeDD(); return; }
   closeDD();
+  (btn.closest('dialog') || document.body).appendChild(ddMenu);
   ddMenu.innerHTML = [...sel.options].map((o, i) =>
     `<button type="button" role="option" class="ddopt${i === sel.selectedIndex ? ' on' : ''}" data-i="${i}">${esc(o.textContent)}</button>`).join('');
   const r = btn.getBoundingClientRect();
@@ -1424,7 +1546,15 @@ document.addEventListener('click', (e) => { if (!e.target.closest('.search')) $(
 function clearFocus() { FOCUS = null; render(); }
 
 /* ── tabs, settings, header ── */
-function setTab(t) {
+const TABS = ['courses', 'timetable', 'faculty', 'cgpa', 'settings'];
+
+function tabFromHash() {
+  const t = location.hash.slice(1).split('?')[0];
+  return TABS.includes(t) ? t : 'courses';
+}
+
+function setTab(t, fromHistory) {
+  if (!fromHistory && tabFromHash() !== t) history.pushState(null, '', '#' + t);
   TAB = t;
   document.querySelectorAll('#nav [data-tab]').forEach((b) => b.classList.toggle('on', b.dataset.tab === t));
   ['courses', 'timetable', 'faculty', 'cgpa', 'settings'].forEach((id) => { $('#' + id).hidden = id !== t; });
@@ -1434,6 +1564,14 @@ function setTab(t) {
 $('#nav').addEventListener('click', (e) => {
   const b = e.target.closest('[data-tab]');
   if (b) { FOCUS = null; setTab(b.dataset.tab); }
+});
+$('#sideUser').addEventListener('click', () => { FOCUS = null; setTab('settings'); });
+
+window.addEventListener('popstate', () => {
+  const d = [$('#dlg'), $('#fsheet')].find((x) => x.open);
+  if (d) { closeDlg(d, true); return; }
+  FOCUS = null;
+  setTab(tabFromHash(), true);
 });
 
 function setTheme(t) {
@@ -1456,9 +1594,12 @@ function setSize(v) {
 
 function renderHeader() {
   const initialsTxt = (S.name || 'PMT').split(' ').map((w) => w[0]).join('').slice(0, 2).toUpperCase();
-  $('#avatar').innerHTML = S.photo
+  const av = S.photo
     ? `<img class="avatar" src="${S.photo}" alt="Profile photo">`
     : `<div class="avatar">${esc(initialsTxt)}</div>`;
+  $('#avatar').innerHTML = av;
+  $('#sideUser').innerHTML = av +
+    `<span class="su-text"><b>${esc(S.name || 'Add your name')}</b><small>${esc(S.reg || 'Add your reg no in Settings')}</small></span>`;
 }
 
 function setPhoto(inp) {
@@ -1516,7 +1657,8 @@ function render() {
 }
 
 /* ── init ── */
-const hash = new URLSearchParams(location.hash.slice(1));
+const hq = location.hash.slice(1);
+const hash = new URLSearchParams(hq.includes('?') ? hq.split('?')[1] : hq);
 if (hash.get('deg')) S.deg = hash.get('deg');
 if (hash.get('opt')) S.opt = hash.get('opt');
 setTheme(S.theme);
@@ -1527,7 +1669,7 @@ $('#sScale').value = S.scale;
 $('#sName').addEventListener('input', (e) => { S.name = e.target.value; save(); renderHeader(); });
 $('#sReg').addEventListener('input', (e) => { S.reg = e.target.value; save(); });
 $('#sScale').addEventListener('input', (e) => { S.scale = e.target.value; save(); });
-render();
+setTab(tabFromHash(), true);
 
 if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(() => {});
 </script>
