@@ -1,4 +1,4 @@
-const CACHE = 'pmt-hub-v2';
+const CACHE = 'pmt-hub-v3';
 const FILES = ['./', './index.html', './manifest.json'];
 
 self.addEventListener('install', (event) => {
