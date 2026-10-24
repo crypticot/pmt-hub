@@ -1671,7 +1671,7 @@ $('#sReg').addEventListener('input', (e) => { S.reg = e.target.value; save(); })
 $('#sScale').addEventListener('input', (e) => { S.scale = e.target.value; save(); });
 setTab(tabFromHash(), true);
 
-if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(() => {});
+if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js', { updateViaCache: 'none' }).catch(() => {});
 </script>
 </body>
 </html>
