@@ -3,7 +3,7 @@
    If the network is slow or offline, the last saved copy is used instead.
    You do not need to change the version below when you edit index.html. */
 
-const CACHE = 'pmt-hub-v4';
+const CACHE = 'pmt-hub-v5';
 const NETWORK_TIMEOUT = 3500;
 const FILES = [
   './',
