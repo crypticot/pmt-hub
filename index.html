@@ -584,6 +584,20 @@ select {
 .codes span { font-family: var(--font-mono); font-size: 0.74rem; font-weight: 600; background: var(--card2); border: 1px solid var(--line); border-radius: 6px; padding: 3px 8px; }
 .codes span.more { color: var(--acc); border-color: var(--acc); background: transparent; }
 
+/* Faculty page: Lecturers / Students switch */
+.subtabs { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 16px; }
+.subtabs button {
+  padding: 8px 18px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: var(--card2);
+  color: var(--mute);
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+.subtabs button.on { background: var(--acc); color: var(--acc-ink); border-color: var(--acc); }
+#studQ { margin-bottom: 16px; }
+
 /* ═════════ Timetable and CGPA tables ═════════ */
 .tablewrap { overflow-x: auto; border: 1px solid var(--line); border-radius: var(--r-md); background: var(--card); }
 table { width: 100%; border-collapse: collapse; min-width: 880px; font-size: 0.9rem; }
@@ -877,8 +891,21 @@ footer a { color: var(--mute); }
     </section>
 
     <section id="faculty" class="view" hidden>
-      <div class="vhead"><h2>Faculty</h2><span class="mute" id="facCount"></span></div>
-      <div class="grid" id="facGrid"></div>
+      <div class="vhead"><h2>Faculty and students</h2><span class="mute" id="facCount"></span></div>
+
+      <div class="subtabs" id="facTabs">
+        <button type="button" data-fsub="lect" class="on">Lecturers</button>
+        <button type="button" data-fsub="stud">Students</button>
+      </div>
+
+      <div id="pane-lect">
+        <div class="grid" id="facGrid"></div>
+      </div>
+
+      <div id="pane-stud" hidden>
+        <input class="field" id="studQ" type="search" placeholder="Search students by name or email" oninput="renderStudents()" aria-label="Search students">
+        <div class="grid" id="studGrid"></div>
+      </div>
     </section>
 
     <section id="cgpa" class="view" hidden>
@@ -891,7 +918,8 @@ footer a { color: var(--mute); }
       <div class="band">
         <div class="form">
           <label>Name <input class="field" id="sName"></label>
-          <label>Reg no <input class="field" id="sReg"></label>
+          <label>Registration number <input class="field" id="sReg" inputmode="numeric" autocomplete="off" placeholder="e.g. 20261234567"></label>
+          <label>Application number <input class="field" id="sApp" autocomplete="off" placeholder="e.g. FUTO/PGAPP/2026-27/00100"></label>
           <label>Profile photo <input class="field" type="file" accept="image/*" onchange="setPhoto(this)"></label>
           <label>Theme
             <select id="sTheme" onchange="setTheme(this.value)">
@@ -944,6 +972,36 @@ const both = (a) => `MBA:${a},MSc:${a}`;
 /* Real class times and venues. Key: 'Day|slotIndex|CODE'. Anything missing shows TBD.
    Example: 'Monday|0|PMT 901': { time: '9:00am-10:30am', venue: 'PG Hall 2' } */
 const ACTUAL = {};
+
+/* ═════ Students ═════
+   Columns: name, programme, option area, email, registration number, application number.
+   Edit any 'N/A' later. Set SHOW_STUDENT_EMAILS to false to hide email addresses on the site. */
+const SHOW_STUDENT_EMAILS = true;
+const STUDENT_COLUMNS = ['name', 'programme', 'option', 'email', 'regNo', 'appNo'];
+const STUDENT_ROWS = [
+  ['AGWAMBA, Eric Chinemerem', 'MSc', D, 'ericagwamba2012@gmail.com', 'N/A', 'N/A'],
+  ['AKA, Bethel Onyedinma', 'MBA', E, 'bethelster@gmail.com', 'N/A', 'N/A'],
+  ['AKPAN, Magdiel Gentle', 'MSc', D, 'N/A', 'N/A', 'N/A'],
+  ['AMADI, Chimaroke Nkwa', 'MSc', E, 'N/A', 'N/A', 'N/A'],
+  ['AYASUK, Roso Dandeson', 'MSc', K, 'rosoayasuk@gmail.com', 'N/A', 'N/A'],
+  ['BODUNDE, Blessing Deborah', 'MSc', I, 'blessingbodunde98@gmail.com', 'N/A', 'N/A'],
+  ['DIBIAGWU, Chijioke', 'MBA', 'N/A', 'creinengr@gmail.com', 'N/A', 'N/A'],
+  ['EBUBEOGU, Henry Ekene', 'MSc', E, 'henryebubeogu2021@gmail.com', 'N/A', 'N/A'],
+  ['ENYI, Princewill Enyindah', 'PGD', 'N/A', 'enyinahprincewillenyi@gmail.com', 'N/A', 'N/A'],
+  ['ENYIA, Otuosoro', 'MSc', E, 'sirchile10@gmail.com', 'N/A', 'N/A'],
+  ['EZENWEKE, Stanley Chukwuebuka', 'MSc', E, 'stanleyezenweke@gmail.com', 'N/A', 'N/A'],
+  ['IHEJIETO, Harmony Ndubuisi', 'MSc', E, 'harensims@gmail.com', 'N/A', 'N/A'],
+  ['KPA, Silas Barineka', 'MSc', K, 'kpabarineka@gmail.com', 'N/A', 'N/A'],
+  ['OBIZULIKE, Emmanuel Chukwuebuka', 'MSc', K, 'N/A', 'N/A', 'N/A'],
+  ['OBONO, Jesam Lekam', 'MSc', E, 'N/A', 'N/A', 'N/A'],
+  ['OGWU, Friday', 'MBA', K, 'ogwufriday@yahoo.com', 'N/A', 'N/A'],
+  ['OJUKWU, Chidubem Tamunomiebi', 'MSc', E, 'N/A', 'N/A', 'N/A'],
+  ['ONOH, Johnson Chukwuebuka', 'MSc', E, 'johnsonchukwuebuka@gmail.com', 'N/A', 'N/A'],
+  ['ONUMAEGBU, Caleb Odinakachi', 'MSc', E, 'calebodinakachi406@gmail.com', 'N/A', 'N/A'],
+  ['ONUOHA, Rosemary Udochi', 'MSc', D, 'rosemaryonuohaudo@gmail.com', 'N/A', 'N/A'],
+  ['ONYEJIAWA, Paulson Chuks', 'MBA', K, 'paulsonchuks2020@gmail.com', 'N/A', 'N/A']
+];
+const STUDENTS = STUDENT_ROWS.map((row) => Object.fromEntries(STUDENT_COLUMNS.map((key, i) => [key, row[i]])));
 
 /* [code, title, L-T-P-U, semester (H or T), lecturers, memberships (degree:area:units)] */
 const COURSE_ROWS = [
@@ -1055,7 +1113,7 @@ const TT_ROWS = [];
 DAYS.forEach((day) => TIMETABLE[day].forEach((t) => TT_ROWS.push({ day, slot: t[0], code: t[1] })));
 
 let S = {
-  deg: '', opt: '', sem: '', day: '', theme: 'dark', name: '', reg: '', photo: '',
+  deg: '', opt: '', sem: '', day: '', theme: 'dark', name: '', reg: '', appNo: '', photo: '',
   scale: 'A=5,B=4,C=3,D=2,E=1,F=0', grades: {}, prevU: 0, prevC: 0, size: 'm'
 };
 try { Object.assign(S, JSON.parse(localStorage.getItem(KEY) || '{}')); } catch (e) {}
@@ -1385,6 +1443,76 @@ function renderFaculty() {
   }).join('') || '<p class="mute">No lecturers match these filters.</p>';
 }
 
+/* ── students ── */
+let FSUB = 'lect';
+
+function renderFacultyPage() {
+  document.querySelectorAll('#facTabs [data-fsub]').forEach((b) => b.classList.toggle('on', b.dataset.fsub === FSUB));
+  $('#pane-lect').hidden = FSUB !== 'lect';
+  $('#pane-stud').hidden = FSUB !== 'stud';
+  if (FSUB === 'lect') renderFaculty();
+  else renderStudents();
+}
+
+function studentShown(s) {
+  if (S.deg && s.programme !== S.deg) return false;
+  if (S.opt && s.option !== S.opt) return false;
+  return true;
+}
+
+function renderStudents() {
+  const q = $('#studQ').value.trim().toLowerCase();
+  const list = STUDENTS.filter((s) =>
+    studentShown(s) && (!q || `${s.name} ${SHOW_STUDENT_EMAILS ? s.email : ''}`.toLowerCase().includes(q)));
+  $('#facCount').textContent = list.length + ' student' + (list.length === 1 ? '' : 's');
+  $('#studGrid').innerHTML = list.map((s) => `
+    <article class="card" role="button" tabindex="0" data-stud="${STUDENTS.indexOf(s)}">
+      <div class="fac-head">
+        <div class="fac-av">${esc(initials(s.name))}</div>
+        <div>
+          <h3>${esc(s.name)}</h3>
+          <p class="mute">${esc(s.programme)}</p>
+        </div>
+      </div>
+      <div class="codes"><span>${esc(s.option)}</span></div>
+    </article>`).join('') || '<p class="mute">No students match these filters.</p>';
+}
+
+function openStudent(i) {
+  const s = STUDENTS[i];
+  const isEmail = /^[^@\s]+@[^@\s]+$/.test(s.email);
+  const email = isEmail ? `<a href="mailto:${esc(s.email)}">${esc(s.email)}</a>` : esc(s.email);
+  $('#dlg').innerHTML = `
+    <div class="sheet-head">
+      <div class="fac-av">${esc(initials(s.name))}</div>
+      <h2>${esc(s.name)}</h2>
+      <p class="mute">${esc(s.programme)} · ${esc(s.option)}</p>
+      <button class="sheet-x" data-close aria-label="Close">${X_ICON}</button>
+    </div>
+    <div class="sheet-body">
+      <dl>
+        <dt>Programme</dt><dd>${esc(s.programme)}</dd>
+        <dt>Option area</dt><dd>${esc(s.option)}</dd>
+        ${SHOW_STUDENT_EMAILS ? `<dt>Email</dt><dd>${email}</dd>` : ''}
+        <dt>Reg no</dt><dd>${esc(s.regNo)}</dd>
+        <dt>Application no</dt><dd>${esc(s.appNo)}</dd>
+      </dl>
+    </div>
+    <div class="sheet-foot"><button class="btn" data-close>Close</button></div>`;
+  showDlg($('#dlg'));
+  $('#dlg .sheet-body').scrollTop = 0;
+}
+
+$('#facTabs').addEventListener('click', (e) => {
+  const b = e.target.closest('[data-fsub]');
+  if (b) { FSUB = b.dataset.fsub; renderFacultyPage(); }
+});
+
+$('#studGrid').addEventListener('click', (e) => {
+  const card = e.target.closest('[data-stud]');
+  if (card) openStudent(+card.dataset.stud);
+});
+
 /* ── cgpa ── */
 function parseScale() {
   const out = {};
@@ -1599,7 +1727,7 @@ function renderHeader() {
     : `<div class="avatar">${esc(initialsTxt)}</div>`;
   $('#avatar').innerHTML = av;
   $('#sideUser').innerHTML = av +
-    `<span class="su-text"><b>${esc(S.name || 'Add your name')}</b><small>${esc(S.reg || 'Add your reg no in Settings')}</small></span>`;
+    `<span class="su-text"><b>${esc(S.name || 'Add your name')}</b><small>${esc(S.reg || 'Add your registration number in Settings')}</small></span>`;
 }
 
 function setPhoto(inp) {
@@ -1652,7 +1780,7 @@ function render() {
     : '';
   if (TAB === 'courses') renderCourses();
   if (TAB === 'timetable') renderTimetable();
-  if (TAB === 'faculty') renderFaculty();
+  if (TAB === 'faculty') renderFacultyPage();
   if (TAB === 'cgpa') renderCgpa();
 }
 
@@ -1665,9 +1793,11 @@ setTheme(S.theme);
 setSize(S.size);
 $('#sName').value = S.name;
 $('#sReg').value = S.reg;
+$('#sApp').value = S.appNo;
 $('#sScale').value = S.scale;
 $('#sName').addEventListener('input', (e) => { S.name = e.target.value; save(); renderHeader(); });
-$('#sReg').addEventListener('input', (e) => { S.reg = e.target.value; save(); });
+$('#sReg').addEventListener('input', (e) => { S.reg = e.target.value; save(); renderHeader(); });
+$('#sApp').addEventListener('input', (e) => { S.appNo = e.target.value; save(); });
 $('#sScale').addEventListener('input', (e) => { S.scale = e.target.value; save(); });
 setTab(tabFromHash(), true);
 
